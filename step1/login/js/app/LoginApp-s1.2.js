@@ -1,1 +1,1 @@
-angular.module('loginApp',[]);
+angular.module('loginApp',['authApp']);

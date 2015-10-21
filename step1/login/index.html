@@ -34,15 +34,22 @@
 							<input type="password" name="form-password" placeholder="Password..."
 							class="form-password form-control" id="form-password" ng-model="user.pwd">
 						</div>
-						<button type="button" class="btn" ng-click="logAuth()">Lets
+						<button type="button" class="btn" ng-model="checked" ng-click="checkUser(user)">Lets
 							go!</button>
 						</form>
+						<div ng-show="checked">
+							Login : {{user.login}}
+							<br/>
+							Password : {{user.pwd}}
+						</div>
+
 					</div> </div> </div> </div> </div> </div> </div>
 					<!-- Javascript -->
 					<script src="lib/jquery-1.11.3.min.js"></script>
 					<script src="lib/bootstrap.min.js"></script>
 					<script src="lib/angular.min.js"></script>
 					<script src="js/app/LoginApp-s1.2.js"></script>
+					<script src="js/services/AuthServices-2.1.js"></script>
 					<script src="js/crtls/LoginCtrl-s1.2.js"></script>
 
 				</body></html>
