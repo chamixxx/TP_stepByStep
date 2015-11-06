@@ -1,0 +1,16 @@
+{
+  "name": "myapp",
+  "version": "0.1.0",
+  "description": "application node cpe",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "private": true,
+  "author": "vincent beauvieux",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
