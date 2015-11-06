@@ -10,6 +10,7 @@ var express = require("express");
 var http = require("http");
 var defaultRoute = require("./app/routes/default.route.js");
 var loadPresRoute = require("./app/routes/loadPres.route.js");
+var savePresRoute = require("./app/routes/savePres.route.js");
 var path = require("path");
 
 //Init server
@@ -22,3 +23,4 @@ app.use("/",defaultRoute);
 app.use("/admin", express.static(path.join(__dirname, "public/admin")));
 app.use("/watch", express.static(path.join(__dirname, "public/watch")));
 app.use("/loadPres", loadPresRoute);
+app.use("/savePres", savePresRoute);
