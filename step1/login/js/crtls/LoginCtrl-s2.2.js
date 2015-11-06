@@ -24,9 +24,17 @@ function loginCrtFnt($scope, $log, auth){
 	};
 
 	$scope.checkUser=function(user) {
-	
-       
-		return auth.localAuthAsk(user.login,user.pwd);
+		
+		 var future = auth.localAuthAsk(user.login,user.pwd);
+		 future.then(
+		 	function(payload){
+		 						//redirection suivant si future.then est admin ou watcher
+		 	}
+		 	function(errorPayload){
+		 						//mauvaises informatiosn de login
+		 	}
+
+		 	)
 	};
 
 }

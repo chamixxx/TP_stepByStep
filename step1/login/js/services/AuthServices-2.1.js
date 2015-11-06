@@ -1,7 +1,7 @@
 angular.module('authApp', []).service('auth',authFnc);
-authFnc.$inject = ['$log'];
+authFnc.$inject = ['$log', '$window'];
 
-function authFnc($log) {
+function authFnc($log,$window) {
 	var userMap={};
 	userMap['jdoe']='jdoepwd';
 	userMap['psmith']='psmithpwd';
@@ -11,15 +11,17 @@ function authFnc($log) {
 		checkUser: checkUser,
 		userList: userList
 	};
-	function checkUser(userlogin,userpwd){
+function checkUser(userlogin,userpwd){
 		for (var user in userMap) {
     		if (userlogin == user && userpwd == userMap[user]) {
     			$log.info(user);
+    			$window.open("loginsuccess.html");
+    			
     		}
 		}	
 	};
 
-	function userList(){
+function userList(){
 		for (var user in userMap) {
     		$log.info(user);
 		}	
