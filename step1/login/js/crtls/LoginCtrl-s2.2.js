@@ -1,8 +1,8 @@
 angular.module('loginApp').controller('loginCtrl',loginCrtFnt);
 
-loginCrtFnt.$inject=['$scope', '$log','auth'];
+loginCrtFnt.$inject=['$scope', '$log','auth', '$window'];
 
-function loginCrtFnt($scope, $log, auth){
+function loginCrtFnt($scope, $log, auth, $window){
 
 	$scope.checked = false;
  	
@@ -25,15 +25,25 @@ function loginCrtFnt($scope, $log, auth){
 
 	$scope.checkUser=function(user) {
 		
-		 var future = auth.localAuthAsk(user.login,user.pwd);
+		 var future = auth.authAsk(user.login,user.pwd);
 		 future.then(
-		 	function(payload){
-		 		$log.info('playload','redirection suivant si future.then est admin ou watcher');				
+		 	function(payload) {
+		 		$log.info('payload',payload);	
+		 		if (payload.validAuth) {
+		 			if (payload.role == "admin") {
+		 				$window.location.assign("loginSuccessAdmin.html");
+		 			}
+		 			else {
+		 				$window.open("../loginSuccessWatcher.html");
+		 			}
+		 		}
+		 		else {
+		 			$log.info('user login',"wrong combination user pwd" );
+		 		}			
 		 	},
 		 	function(errorPayload){
-		 		$log.info('errorPayload','mauvaises informatiosn de login')				
+		 		$log.info('errorPayload',errorPayload)				
 		 	}
-
 		);
 	};
 
