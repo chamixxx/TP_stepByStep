@@ -25,15 +25,38 @@ function factoryFnc() {
 	};
 
 	function contentCreation(title,type,src) { 
-		// TODO
+		var content = {
+			"id":1,
+			"title" : title,
+			"type" : type,
+			"src" : src
+		};
+		return content;
 	};
 
 	function slidCreation(title,txt) {
-		// TODO
+		var content = contentCreation("test1",contentType.IMG_URL,"URL");
+		var contentMap = {};
+		contentMap['1'] = content;
+ 
+		var slide = {
+			"id":1,
+			"title" : title,
+			"text" : txt,
+			"contentMap" : contentMap
+		}
+		return slide;
 	};
 
 	function presentationCreation(title,description) {
-		// TODO
+		var slideArray = [];
+		var presentaion = {
+			"id":1,
+			"title" : title,
+			"description" : description,
+			"slideArray" : slideArray
+		};
+		return presentaion;
 	};
 
 	function mapToArray(map) { 

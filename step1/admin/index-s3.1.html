@@ -14,7 +14,7 @@
 		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 zeroRef fullScreenHeight divOverflow" >
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="btn-group" role="group" aria-label="...">
-					<button type="button" class="btn btn-default">
+					<button type="button" class="btn btn-default" ng-click="creatPresentation(currentPresenation)">
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					</button>
 				</div>
@@ -33,6 +33,15 @@
 					<label for="currentPresTitle">Title</label>
 					<input type="text" ng-model="currentPresenation.title" class="form-control"
 					id="currentPresTitle"> 
+				</div>
+				<div class="list-group">
+					 <a ng-repeat="slide in currentPresentation.slideArray" 
+            			href="#" 
+            			class="list-group-item">
+          				<strong>Title : </strong> {{ slide.title }}
+          				<p> {{ slide.txt }}   {{ slide.type }}</p>
+          				</a>
+          				<br\>
 				</div>
 			</div>
 		</div>

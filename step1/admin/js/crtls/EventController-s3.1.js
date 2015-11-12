@@ -5,7 +5,22 @@ eventCrtlFnt.$inject=['$scope', '$log','factory', '$window'];
 function eventCrtlFnt($scope, $log, factory, $window) {
 	$log.info('controller','event');
 
-	$scope.creatPresentation = function() {
-		$scope.currentPresentation = factory.creatPresentation();
-	}
+	
+	$scope.newSlide = function() {
+		var slideInfo = {
+			"title":"testSlide",
+			"text":"testTxt"
+		};
+		var slide = factory.slidCreation(slideInfo.title,slideInfo.text);
+		$scope.currentPresentation.slideArray.push(slide);
+		console.dir($scope.currentPresentation);
+	};
+		
+
+	$scope.creatPresentation = function(pres) {
+		$scope.currentPresentation = factory.presentationCreation(pres.title,"");
+		console.dir($scope.currentPresentation);
+	};
+
+
 }
