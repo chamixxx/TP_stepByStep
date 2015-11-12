@@ -34,7 +34,7 @@ function loginCrtFnt($scope, $log, auth, $window){
 		 				$window.location.assign("loginSuccessAdmin.html");
 		 			}
 		 			else {
-		 				$window.open("../loginSuccessWatcher.html");
+		 				$window.location.assign("loginSuccessWatcher.html");
 		 			}
 		 		}
 		 		else {
