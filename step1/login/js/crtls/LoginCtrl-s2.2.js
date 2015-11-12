@@ -28,13 +28,13 @@ function loginCrtFnt($scope, $log, auth){
 		 var future = auth.localAuthAsk(user.login,user.pwd);
 		 future.then(
 		 	function(payload){
-		 						//redirection suivant si future.then est admin ou watcher
-		 	}
+		 		$log.info('playload','redirection suivant si future.then est admin ou watcher');				
+		 	},
 		 	function(errorPayload){
-		 						//mauvaises informatiosn de login
+		 		$log.info('errorPayload','mauvaises informatiosn de login')				
 		 	}
 
-		 	)
+		);
 	};
 
 }

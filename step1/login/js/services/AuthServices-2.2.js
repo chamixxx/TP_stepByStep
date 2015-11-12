@@ -12,7 +12,7 @@ function authFnc($log,$window, $http, $q) {
 		userList: userList,
 		localAuthAsk:localAuthAsk
 	};
-function checkUser(userlogin,userpwd){
+	function checkUser(userlogin,userpwd) {
 		for (var user in userMap) {
     		if (userlogin == user && userpwd == userMap[user]) {
     			$log.info(user);
@@ -22,33 +22,28 @@ function checkUser(userlogin,userpwd){
 		}	
 	};
 
-function userList(){
+	function userList(){
 		for (var user in userMap) {
     		$log.info(user);
 		}	
 	};
 
-function localAuthAsk(login,pwd)
-	{ 
+	function localAuthAsk(login,pwd) { 
 		console.dir($q);
 		var deferred = $q.defer();
 		setInterval(function(login,pwd){
-			success = true;
-			error = false;
-			if( success)
-			{ //TODO
+			
+			if(userMap[login]==pwd) {
+				 //TODO
 				var data = {}
 				//remplir le container deffered avec les données recues via http.get
-				deffered.resolve(data)
-	
+				deferred.resolve(data)
 	        }
-	        if(error)
-	        {
-	            deffered.reject('fail');
+	        else {
+	            deferred.reject('fail');
 			}
 			clearInterval(this); },3000,login,pwd);
-	        return deffered.promise;
-	    }
-
-	return fncContainer;
+	        return deferred.promise;
+	}
+		return fncContainer;
 }
