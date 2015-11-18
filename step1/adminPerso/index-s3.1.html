@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="adminApp" ng-controller="eventCtrl"> 
+<head>
+	<title>Bootstrap 101 Template</title>
+	<!-- Bootstrap -->
+	<link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+	<!-- <link href="css/js.css" rel="stylesheet"> -->
+</head>
+  
+<body>
+<div class="container-fluid fullScreenHeight zeroRef" >
+	<div class="row container-fluid fullScreenHeight ">
+	<!-- ************* LEFT PANEL *************-->
+		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 zeroRef fullScreenHeight divOverflow" >
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="btn-group" role="group" aria-label="...">
+					<button type="button" class="btn btn-default" ng-click="creatPresentation(currentPresenation)">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="btn-group" role="group" aria-label="...">
+					<button type="button" class="btn btn-default" ng-click="savePres()">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-default" ng-click="newSlide()">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-default">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="form-group">
+					<label for="currentPresTitle">Title</label>
+					<input type="text" ng-model="currentPresenation.title" class="form-control"
+					id="currentPresTitle"> 
+				</div>
+				<div class="list-group">
+					 <a ng-repeat="slide in currentPresentation.slideArray" ng-click="selectCurrentSlid(slide)" class="list-group-item">
+          				<strong>Title : </strong> {{ slide.title }}
+          				<p> {{ slide.text }} </p>
+          				<img ng-src="{{slide.contentMap['1'].src}}" alt="" style="width:50px;height:50px;">
+          			</a>
+          			<br\>
+				</div>
+			</div>
+		</div>
+	
+	<!-- ************* CENTER PANEL *************-->
+	<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 zeroRef fullScreenHeight" >
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fullScreenHeight">
+			<div class="form-group" >
+			<!-- ￼￼TODO DISPLAY CURRENT SLID TITLE AND DESCRIPTION (EDITION) -->
+				<strong>Title : </strong> 
+				<input type="text" ng-model="currentSlide.title" class="form-control"
+					id="currentSlideTitle">
+				<strong>Text: </strong> 
+				<input type="text" ng-model="currentSlide.text" class="form-control"
+					id="currentSlideText" style="height: 150px;">
+			</div>
+			<div ng-switch on="currentSlide.contentMap['1'] || '_undefined_'">
+				<div ng-switch-when="_undefined_">
+			        <h1>No Image Set</h1>
+			    </div>
+    			<div ng-switch-default="_undefined_">
+					<div ng-switch on="currentSlide.contentMap['1'].type">
+    					<div ng-switch-when="IMG_URL">
+							<img ng-src="{{currentSlide.contentMap['1'].src}}" alt="Robot">	
+    					</div>
+			    		<div ng-switch-when="IMG_BASE64">
+			        		<img ng-src="data:image/png;base64,{{currentSlide.contentMap['1'].src}}">
+			    		</div>
+					</div>
+    			</div> 
+			</div>
+		</div>
+	</div>
+
+
+	<script src="lib/jquery-1.11.3.min.js"></script>
+	<script src="lib/angular.min.js"></script>
+	<script src="js/services/FactoryService-s3.1.js"></script>
+	<script src="js/app/AdminApp-s3.1.js"></script>
+	<script src="js/crtls/EventController-s3.1.js"></script>
+</body>
