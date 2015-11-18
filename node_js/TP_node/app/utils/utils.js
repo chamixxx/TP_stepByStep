@@ -57,3 +57,12 @@ this.getFileType = function(fileType) {
 		return "VIDEO_CUSTOM";
 	}
 };
+
+this.isJsonString = function(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+};
