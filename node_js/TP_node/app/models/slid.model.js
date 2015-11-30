@@ -2,26 +2,16 @@ var fs = require('fs');
 var path = require('path');
 var CONFIG = JSON.parse(process.env.CONFIG);
 var Utils = require("./../utils/utils");
-var Promise = require('promise');
-module.exports = ModelSlid;
+
 
 function ModelSlid(data_model) {
 	
-	this.type = "";
-	this.id = Utils.generateUUID();
-	this.title = "";
-	this.fileName = "";
-	this.data = "";
+	this.type = (data_model && data_model.type) ? data_model.type : null;
+	this.id = (data_model && data_model.id) ? data_model.id : null;
+	this.title = (data_model && data_model.title) ? data_model.title : null;
+	this.fileName = (data_model && data_model.fileName) ? data_model.fileName : null;;
+	this.data = null;
 
-	if (data_model !== null) {
-		try {
-			data_model = JSON.parse(data_model);
-		}catch (e){}
-		if (data_model.type){this.type = data_model.type;}
-		if (data_model.id){this.id = data_model.id;}
-		if (data_model.title){this.title = data_model.title;}
-		if (data_model.fileName){this.fileName = data_model.fileName;}
-	}
 	this.getData = function() {
 		return this.data;
 	}
@@ -31,6 +21,16 @@ function ModelSlid(data_model) {
 }
 
 ModelSlid.create = function (slid, callback) {
+	if(!(slid instanceof ModelSlid)){
+		err = "parameter is not an instance of ModelSlid";
+		callback(err);
+		return;
+	}
+	if(slid.id == null) {
+			err = "create : id is null";
+			callback(err);
+			return;
+	}
 	var file = CONFIG.contentDirectory + '/' + slid.fileName;
 	var fd = fs.open(file,'w',function(err,fd) {
 		if (err) {
@@ -42,7 +42,6 @@ ModelSlid.create = function (slid, callback) {
 				callback(err);
 				return;
 			}
-			console.log("slid.filename success");
 			var file = CONFIG.contentDirectory + '/' + slid.id + ".meta.json";
 			var fd = fs.open(file,'w',function(err,fd) {
 				if(err) {
@@ -52,10 +51,9 @@ ModelSlid.create = function (slid, callback) {
 				fs.write(fd,JSON.stringify(slid),function(err,res) {
 					if (err) {
 						callback(err);
-						return err;
+						return;
 					}
 					else {
-						console.log("slid.metadata.json success");
 						callback();
 					}
 				});
@@ -72,8 +70,9 @@ ModelSlid.read = function (id, callback) {
       	}
       	files.forEach(function(file, i) {
         	if( (files[i].indexOf(id) > -1) && path.extname(files[i]) === ".json") {
-        		fs.readFile(CONFIG.contentDirectory + "/" + files[i],'utf-8', function(err, json) {
+        		fs.readFile(CONFIG.contentDirectory + "/" + files[i], function(err, json) {
 			         if (err){
+			         	console.log(err);
 			         	callback(err);
 			         	return;
 			         }
@@ -84,6 +83,7 @@ ModelSlid.read = function (id, callback) {
 			         }
 			         var slidModel = new ModelSlid(slidinfo);
 		         	 callback(null,slidModel);
+		         	 return;
         		});
   			}
     	});
@@ -98,58 +98,39 @@ ModelSlid.update = function (slid,callback) {
 		}
 		files.forEach(function(file,i){
 			if(files[i] == slid.id + ".meta.json") {
-        		fs.readFile(CONFIG.contentDirectory + "/" + file,'utf-8', function(err, json) {
-        			if (err){
-        				callback(err);
-        				return err;
-        			}
-        			try {
-        				var slidinfo = JSON.parse(json);
-        			} catch(e) {
-        				console.log("error read while parsing target file to json");
-        			}
-			        slidinfo.title = slid.title;
-			        var updatedslid = JSON.stringify(slidinfo);
-			        var fd = fs.open(CONFIG.contentDirectory + "/" + file,'w',function(err,fd) {
-			        	if(err){
-			        		callback(err);
-			        	}
-			         	fs.write(fd,updatedslid,function(err) {
-			         		if (err){
-			         			callback(err);
-			         			return err;
-			         		}
-			         		if(slid.data ="" || (slid.data).length < 1) {
-			         			callback();
-			         		}
-			         		files.forEach(function(file,i){
-								if(files[i] == slid.filename) {
-									fs.readFile(CONFIG.contentDirectory + "/" + file,'utf-8', function(err, json) {
-					        			if (err){
-					        				callback(err);
-					        				return err;
-					        			}
-								        var fd = fs.open(CONFIG.contentDirectory + "/" + slid.filename,'w',function(err,fd) {
-								         	fs.write(fd,slid.data,function(err) {
-								         		if (err){
-								         			callback(err);
-								         			return err;
-								         		}			         		
-								         		callback();
-								         	});
-								        });
-					        		});
-								}
-			         		});
-			         	});
-			        });
-        		});
+		        var updatedslid = JSON.stringify(slid);
+	         	fs.writeFile(CONFIG.contentDirectory + "/" + file,updatedslid,function(err) {
+	         		if (err){
+	         			callback(err);
+	         			return err;
+	         		}
+	         		if(slid.data == null || (slid.data).length < 1) {
+	         			callback();
+	         			return;
+	         		}
+	         		files.forEach(function(file,i){
+						if(files[i] == slid.fileName) {
+		        			if (err){
+		        				callback(err);
+		        				return err;
+		        			}
+				         	fs.writeFile(CONFIG.contentDirectory + "/" + slid.fileName,slid.data,function(err) {
+				         		if (err){
+				         			callback(err);
+				         			return err;
+				         		}			         		
+				         		callback();
+				         		return;
+				         	});
+						}
+	         		});
+	         	});
         	}
 		});
 	});
 }
 
-ModelSlid.deleteID = function(id,callback) {
+ModelSlid.delete = function(id,callback) {
 	ModelSlid.read(id,function(err,data){
 		if (err) {
 			callback(err);
@@ -171,6 +152,8 @@ ModelSlid.deleteID = function(id,callback) {
 
 	})
 }
+
+module.exports = ModelSlid;
 
 
 
