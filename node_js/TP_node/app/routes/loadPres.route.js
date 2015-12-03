@@ -24,8 +24,6 @@ router.route("/")
               jsonToReturn["pres" + i + ".id"] = JSON.parse(json);
           }
           if (0 === --c) {
-            //console.info("json:",jsonToReturn);
-            //console.info("response:",response);
             response.send(jsonToReturn);
           }
         });

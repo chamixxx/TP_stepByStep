@@ -24,6 +24,9 @@ router.param('slidID', function(request, response, next, id){
 
 
 
+
+
+
 //.post(slidController.token,slidController.create);
 
 

@@ -55,7 +55,7 @@ SlidController.create = function(request,response) {
 		modelSlid.title = title;
 		modelSlid.id = id;
 		modelSlid.fileName = fileName;
-		modelSlid.setData(data) = data;
+		modelSlid.setData(data);
 		console.log(JSON.stringify(modelSlid));
 		ModelSlid.create(modelSlid,function(err){
 			if(err) {
