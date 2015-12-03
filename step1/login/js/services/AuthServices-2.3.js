@@ -31,7 +31,7 @@ function authFnc($log,$window, $http, $q) {
 	function authAsk(login,pwd) { 
 		console.dir($q);
 		var deferred = $q.defer();
-		$http.post('http://localhost:8080/fakeauthwatcher',{'login':login,'pwd':pwd}).
+		$http.post('http://localhost:8080/FrontAuthWatcherWebService2/test',{'login':login,'pwd':pwd}).
 			success(function(data, status, headers, config) {
 			 	deferred.resolve(data)
 			}).

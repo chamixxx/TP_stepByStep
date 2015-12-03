@@ -30,10 +30,11 @@ function loginCrtFnt($scope, $log, auth, $window){
 		 	function(payload) {
 		 		$log.info('payload',payload);	
 		 		if (payload.validAuth) {
-		 			if (payload.role == "admin") {
-		 				$window.location.assign("loginSuccessAdmin.html");
+		 			if (payload.role == "ADMIN") {
+		 				$window.location.assign("../admin/index.html");
 		 			}
 		 			else {
+		 				alert(payload.role);
 		 				$window.location.assign("loginSuccessWatcher.html");
 		 			}
 		 		}
