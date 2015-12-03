@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="loginApp" ng-controller="loginCtrl">
 <head>
-	<title>Watcher Login</title>
+	<title>Login</title>
 	<!-- CSS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
@@ -37,10 +37,8 @@
 						<button type="button" class="btn" ng-model="checked" ng-click="checkUser(user)" >Lets
 							go!</button>
 						</form>
-						<div ng-show="checked">
-							Login : {{user.login}}
-							<br/>
-							Password : {{user.pwd}}
+						<div ng-show="usercheck">
+							<p style="color:red">Wrong password and login combination</p>
 						</div>
 
 					</div> </div> </div> </div> </div> </div> </div>

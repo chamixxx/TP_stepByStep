@@ -4,7 +4,7 @@ loginCrtFnt.$inject=['$scope', '$log','auth', '$window'];
 
 function loginCrtFnt($scope, $log, auth, $window){
 
-	$scope.checked = false;
+	$scope.usercheck = false;
  	
  	$scope.logAuth = function() {
 
@@ -30,15 +30,17 @@ function loginCrtFnt($scope, $log, auth, $window){
 		 	function(payload) {
 		 		$log.info('payload',payload);	
 		 		if (payload.validAuth) {
+		 			$scope.usercheck = false;
+
 		 			if (payload.role == "ADMIN") {
 		 				$window.location.assign("../admin/index.html");
 		 			}
-		 			else {
-		 				alert(payload.role);
+		 			if (payload.role == "WATCHER") {
 		 				$window.location.assign("loginSuccessWatcher.html");
 		 			}
 		 		}
 		 		else {
+		 			$scope.usercheck = true;
 		 			$log.info('user login',"wrong combination user pwd" );
 		 		}			
 		 	},
