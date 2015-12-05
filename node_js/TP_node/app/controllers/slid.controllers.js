@@ -20,18 +20,22 @@ SlidController.list = function(request, response) {
 				jsonFiles.push(files[i]);
 			}
 		}
-		var lReturn = {};
+		var listSlideReturn = {};
 		jsonFiles.forEach(function(file, i){
 			var id = path.basename(file, '.meta.json')
-			ModelSlid.read(id,function(err, data) {
+			ModelSlid.read(id,function(err, slidRetour) {
 				if(err) {
 					console.error(err);
 					response.status(500).send(err);
 					return;
 				}
-				lReturn[data.id] = JSON.stringify(data);
-				if( (Object.keys(lReturn)).length == jsonFiles.length) {
-					response.send(lReturn);
+				slidRetour = JSON.stringify(slidRetour);
+				slidRetour = JSON.parse(slidRetour);
+				slidRetour.src = CONFIG.contentDirectory.slice(1)+ "/"+slidRetour.fileName;
+				listSlideReturn[slidRetour.id] = slidRetour;
+				if( (Object.keys(listSlideReturn)).length == jsonFiles.length) {
+					console.log(listSlideReturn);
+					response.send(listSlideReturn);
 				}
 			});
 		});

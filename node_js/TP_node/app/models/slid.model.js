@@ -4,13 +4,14 @@ var CONFIG = JSON.parse(process.env.CONFIG);
 var Utils = require("./../utils/utils");
 
 
-function ModelSlid(data_model) {
+var ModelSlid = function(data_model) {
 	
+	//console.dir(data_model);
 	this.type = (data_model && data_model.type) ? data_model.type : null;
 	this.id = (data_model && data_model.id) ? data_model.id : null;
 	this.title = (data_model && data_model.title) ? data_model.title : null;
-	this.fileName = (data_model && data_model.fileName) ? data_model.fileName : null;;
-	this.data = null;
+	this.fileName = (data_model && data_model.fileName) ? data_model.fileName : null;
+	var data = null;
 
 	this.getData = function() {
 		return this.data;
@@ -81,6 +82,7 @@ ModelSlid.read = function (id, callback) {
 			         }catch (e){
 			         	console.log("error read while parsing target file to json");
 			         }
+			         console
 			         var slidModel = new ModelSlid(slidinfo);
 		         	 callback(null,slidModel);
 		         	 return;

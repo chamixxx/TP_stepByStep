@@ -14,6 +14,7 @@ var defaultRoute = require("./app/routes/default.route.js");
 var loadPresRoute = require("./app/routes/loadPres.route.js");
 var savePresRoute = require("./app/routes/savePres.route.js");
 var slidRouter = require("./app/routes/slid.router.js");
+var authRoute = require("./app/routes/auth.route.js");
 
 
 //Init server
@@ -22,12 +23,15 @@ var server = http.createServer(app);
 server.listen(CONFIG.port);
 
 //route
-app.use("/",defaultRoute);
-app.use("/admin", express.static(path.join(__dirname, "public/admin")));
+app.use("/",express.static(path.join(__dirname, "angular/login")));
+app.use("/admin", express.static(path.join(__dirname, "angular/admin")));
 app.use("/watch", express.static(path.join(__dirname, "public/watch")));
 app.use("/loadPres", loadPresRoute);
 app.use("/savePres", savePresRoute);
 app.use("/slidRouter", slidRouter);
+app.use("/authentication", authRoute);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 
 
