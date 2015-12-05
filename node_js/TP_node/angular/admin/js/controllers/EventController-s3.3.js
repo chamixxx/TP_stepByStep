@@ -14,6 +14,8 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
     $scope.presentationMap={};
     $scope.presentationMap.payload="";
 
+    $scope.isDropZoneShown = false;
+
     //$scope.socket = comm.io.socketConnection($scope, factory.generateUUID());
 
     
@@ -91,5 +93,14 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
     $scope.isSlidContentEmpty=function(slid){
         if(slid == undefined) return false;
         return slid.contentMap[1]== undefined;
-    }        
+    }      
+
+    $scope.showDropZone = function() {
+      if ($scope.isDropZoneShown == false) {
+        $scope.isDropZoneShown = true;
+      }
+      else {
+        $scope.isDropZoneShown = false;
+      }
+    }  
 };

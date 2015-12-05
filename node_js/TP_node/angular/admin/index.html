@@ -83,7 +83,8 @@
             </div>
 
                 </div>
-                <div id="dropZone" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                <button type="button" class="btn btn-default" ng-click="showDropZone()">Montrer DropZone</button>
+                <div id="dropZone" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="isDropZoneShown"> 
                     <div ng-include="'pages/DropZoneArea.html'"></div>
                 </div>
                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 contentBlock" ng-repeat="content in contentMap.array | filter:searchContent | orderBy: 'type'" > 

@@ -32,35 +32,18 @@ ModelSlid.create = function (slid, callback) {
 			callback(err);
 			return;
 	}
-	var file = CONFIG.contentDirectory + '/' + slid.fileName;
-	var fd = fs.open(file,'w',function(err,fd) {
-		if (err) {
-			callback(err);
-			return;
-		}
-		fs.write(fd,slid.getData(),function(err,res) {
-			if(err){
-				callback(err);
-				return;
-			}
-			var file = CONFIG.contentDirectory + '/' + slid.id + ".meta.json";
-			var fd = fs.open(file,'w',function(err,fd) {
-				if(err) {
-					callback(err);
-					return;
-				}
-				fs.write(fd,JSON.stringify(slid),function(err,res) {
-					if (err) {
-						callback(err);
-						return;
-					}
-					else {
-						callback();
-					}
-				});
-			});
-		});
+	var pathToFile = CONFIG.contentDirectory + '/' + slid.id +  ".meta.json";
+	slid = JSON.stringify(slid);
+	fs.writeFile(pathToFile, slid, function(err) {
+		if (err){
+      		callback(err);
+      		return;
+      	}
+      	else {
+      		callback();
+      	}
 	});
+
 }
 
 ModelSlid.read = function (id, callback) {
@@ -133,6 +116,7 @@ ModelSlid.update = function (slid,callback) {
 }
 
 ModelSlid.delete = function(id,callback) {
+	console.log("tu supr frere");
 	ModelSlid.read(id,function(err,data){
 		if (err) {
 			callback(err);

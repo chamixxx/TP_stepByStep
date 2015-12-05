@@ -34,7 +34,6 @@ SlidController.list = function(request, response) {
 				slidRetour.src = CONFIG.contentDirectory.slice(1)+ "/"+slidRetour.fileName;
 				listSlideReturn[slidRetour.id] = slidRetour;
 				if( (Object.keys(listSlideReturn)).length == jsonFiles.length) {
-					console.log(listSlideReturn);
 					response.send(listSlideReturn);
 				}
 			});
@@ -43,33 +42,26 @@ SlidController.list = function(request, response) {
 }
 
 SlidController.create = function(request,response) {
-	var id = Utils.generateUUID();
+	var id = request.file.filename.slice(0, -4);
 	var fileName = Utils.getNewFileName(id,request.file.originalname);
 	var type = Utils.getFileType(request.file.mimetype);
 	var title = request.file.originalname;
-	fs.readFile(request.file.path,'utf-8',function(err,data) {
-		console.log("here2");
-		if(err){
+
+	var modelSlid = new ModelSlid();
+	modelSlid.type = type;
+	modelSlid.title = title;
+	modelSlid.id = id;
+	modelSlid.fileName = fileName;
+	console.log(JSON.stringify(modelSlid));
+	ModelSlid.create(modelSlid,function(err){
+		if(err) {
 			console.error(err);
 			response.status(500).send(err);
 			return;
 		}
-		var modelSlid = new ModelSlid();
-		modelSlid.type = type;
-		modelSlid.title = title;
-		modelSlid.id = id;
-		modelSlid.fileName = fileName;
-		modelSlid.setData(data);
-		console.log(JSON.stringify(modelSlid));
-		ModelSlid.create(modelSlid,function(err){
-			if(err) {
-				console.error(err);
-				response.status(500).send(err);
-				return;
-			}
-			response.status(200).send();
-		});
+		response.status(200).send();
 	});
+	
 }
 
 SlidController.read = function(request, response) {
