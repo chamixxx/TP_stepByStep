@@ -52,12 +52,14 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
     $scope.newSlide = function(){
         var slid=factory.slidCreation("slide-Title","slide-text");
         $scope.currentPresenation.slidArray.push(slid);
+        $scope.currentSlide = slid; 
     }
 
     $scope.newPresentation = function() {
         console.log("title per default");
         var title = "My presentation";        
         $scope.currentPresenation = factory.presentationCreation(title,"my fisrt presentation",$scope.currentPresenation.id);
+        $scope.newSlide();
     }
     
     $scope.savePres=function(){
@@ -72,8 +74,7 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
     }
     
     $scope.selectCurrentSlid=function(slide){
-        $scope.currentSlide=slide;
-        
+        $scope.currentSlide=slide; 
     }
     
     
