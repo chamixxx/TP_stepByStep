@@ -6,7 +6,7 @@ var CONFIG = JSON.parse(process.env.CONFIG);
 var presentationDirectory = CONFIG.presentationDirectory;
 var curSlidIndex = 0;
 var playerStarted = null;
-var interval = 4000;
+var interval = 2000;
 var isLastSlide = false;
 
 function IOcontroller() {};
@@ -41,7 +41,7 @@ IOcontroller.listen = function(server) {
 					}
 					else {
 						console.log(msg);
-						currentState = "PLAYING";
+						currentState = "PLAYED";
 						if(playerStarted != null){
 							clearInterval(playerStarted);
 						}
@@ -52,7 +52,7 @@ IOcontroller.listen = function(server) {
 				});
 			}
 			else if(currentPres != null){
-				getIndexSlidToShow(cmd.CMD,function(err){
+				IOcontroller.getIndexSlidToShow(cmd.CMD,function(err){
 					if(err){
 						socket.emit("errorClient", err);
 					}
@@ -60,15 +60,16 @@ IOcontroller.listen = function(server) {
 						if(playerStarted != null){
 							clearInterval(playerStarted);
 						}
-						if(currentState = "PLAYING"){
+						if(currentState == "PLAYED"){
+
 							playerStarted = setInterval(function(){
 								IOcontroller.play(socket);
 							},interval);
 						}
 						var slid = currentPres.slidArray[curSlidIndex];
-						socket.emit("currentSlidEvent", slid);
+						socket.emit("slidEvent", slid);
 						if(!isLastSlide){
-							socket.broadcast.emit("currentSlidEvent",slid);
+							socket.broadcast.emit("slidEvent",slid);
 						}
 					}
 				});
@@ -78,7 +79,7 @@ IOcontroller.listen = function(server) {
 }
 
 IOcontroller.setUpPres = function(id, callback){
-	fs.readFile(relativePresentationDirectory + "/" + file,'utf-8', function(err, pres) {
+	fs.readFile(presentationDirectory + "/" + id + ".pres.json",'utf-8', function(err, pres) {
 		if (err){
 			callback(err);
 			return;
@@ -90,16 +91,17 @@ IOcontroller.setUpPres = function(id, callback){
 }
 
 IOcontroller.play = function(socket){
-	if(currentState = "PLAY" && currentPres != null){
-		getIndexSlidToShow("NEXT",function(err){
+	console.log("playing");
+	if(currentState == "PLAYED" && currentPres != null){
+		IOcontroller.getIndexSlidToShow("NEXT",function(err){
 			if(err) {
 				socket.emit("errorClient", err);
 			}
 			else {
 				var slid = currentPres.slidArray[curSlidIndex];
-				socket.emit("currentSlidEvent",slid);
+				socket.emit("slidEvent",slid);
 				if(!isLastSlide) {
-					socket.broadcast(slid);
+					socket.broadcast.emit("slidEvent",slid);
 				}	
 			}
 		});
@@ -110,7 +112,7 @@ IOcontroller.getIndexSlidToShow = function(cmd,callback) {
 	isLastSlide = false;
 	switch(cmd) {
 		case "PAUSE":
-			currentState = "PAUSE";
+			currentState = "PAUSED";
 			break;
 		case "BEGIN":
 			curSlidIndex = 0;
@@ -129,6 +131,9 @@ IOcontroller.getIndexSlidToShow = function(cmd,callback) {
 			}
 			else{
 				isLastSlide = true;
+				if (playerStarted != null) {
+					clearInterval(playerStarted);
+				}
 			}
 			break;
 		default: 

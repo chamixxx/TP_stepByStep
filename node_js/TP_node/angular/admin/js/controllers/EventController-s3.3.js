@@ -18,7 +18,7 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
 
     $scope.dropZoneButton = "Montrer DropeZone";
 
-    //$scope.socket = comm.io.socketConnection($scope, factory.generateUUID());
+    $scope.socket = comm.io.socketConnection($scope, factory.generateUUID());
 
     
     var available_content=comm.loadImages();
@@ -39,7 +39,6 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
                             
               for(key in $scope.presentationMap.payload){
                   $scope.currentPresenation = $scope.presentationMap.payload[key];
-                  console.log( $scope.currentPresenation );
                   $scope.currentSlide = $scope.currentPresenation.slidArray[0];              
                 }
              

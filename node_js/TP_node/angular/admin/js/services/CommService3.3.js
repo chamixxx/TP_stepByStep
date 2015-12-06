@@ -13,7 +13,6 @@ function commFnc($http,$q) {
 		var deferred = $q.defer(); 
 		$http.get('/slidRouter/slids').
 			success(function(data, status, headers, config) {
-			console.log(data);
 			deferred.resolve(data); 
 		}).
 		error(function(data, status, headers, config) { 
@@ -63,7 +62,10 @@ function commFnc($http,$q) {
 		socket.on('newPres', function (socket) { 
 		});
 		
-		socket.on('slidEvent', function (socket) {
+		socket.on('slidEvent', function (slid) {
+			console.log(slid);
+			scope.selectCurrentSlid(slid);
+			scope.$apply();
 		});
 		
 		return socket; 

@@ -3,14 +3,14 @@ angular.module('adminApp').controller('playerCtrl',playerCrtFnt);
 playerCrtFnt.$inject=['$scope','$log','$window','comm'];
 
 function playerCrtFnt($scope, $log, $window, comm) {
+	$(".glyphicon-pause").css({color: "red"});
 
-	var uuid = $scope.currentPresenation.id;
-	//var socket = comm.io.socketConnection($scope,$scope.currentPresenation.id);
-	console.log(uuid);
 	var socket = $scope.socket;
 
 	
 	$scope.pause = function() {
+		$(".glyphicon-pause").css({color: "red"});
+        $(".glyphicon-play").css({color: "black"});
 		comm.io.emitPause(socket);
 	};
 
@@ -32,6 +32,8 @@ function playerCrtFnt($scope, $log, $window, comm) {
 	};
 
 	$scope.play = function() {
-		comm.io.emitStart(socket,uuid);
+		$(".glyphicon-play").css({color: "red"});
+        $(".glyphicon-pause").css({color: "black"});
+		comm.io.emitStart(socket,$scope.currentPresenation.id);
 	};
 };
