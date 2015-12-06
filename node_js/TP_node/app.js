@@ -15,11 +15,13 @@ var loadPresRoute = require("./app/routes/loadPres.route.js");
 var savePresRoute = require("./app/routes/savePres.route.js");
 var slidRouter = require("./app/routes/slid.router.js");
 var authRoute = require("./app/routes/auth.route.js");
+var IOcontroller = require("./app/controllers/io.controller.js");
 
 
 //Init server
 var app = express();
 var server = http.createServer(app);
+IOcontroller.listen(server);
 server.listen(CONFIG.port);
 
 //route
