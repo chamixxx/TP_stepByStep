@@ -16,6 +16,8 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
 
     $scope.isDropZoneShown = false;
 
+    $scope.dropZoneButton = "Montrer DropeZone";
+
     //$scope.socket = comm.io.socketConnection($scope, factory.generateUUID());
 
     
@@ -47,10 +49,15 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
           });
     
     
-    $scope.newSlide=function(){
+    $scope.newSlide = function(){
         var slid=factory.slidCreation("slide-Title","slide-text");
         $scope.currentPresenation.slidArray.push(slid);
-        
+    }
+
+    $scope.newPresentation = function() {
+        console.log("title per default");
+        var title = "My presentation";        
+        $scope.currentPresenation = factory.presentationCreation(title,"my fisrt presentation",$scope.currentPresenation.id);
     }
     
     $scope.savePres=function(){
@@ -98,9 +105,17 @@ function eventCrtFnt($scope, $log, $window, factory, comm){
     $scope.showDropZone = function() {
       if ($scope.isDropZoneShown == false) {
         $scope.isDropZoneShown = true;
+         $scope.dropZoneButton = "Cacher DropeZone";
       }
       else {
         $scope.isDropZoneShown = false;
+         $scope.dropZoneButton = "Montrer DropeZone";
       }
     }  
+
+    $scope.deleteSlide = function() {
+      var index = $scope.currentPresenation.slidArray.indexOf($scope.currentSlide);
+      console.log(index);
+      $scope.currentPresenation.slidArray.splice(index,1);
+    }
 };

@@ -59,9 +59,9 @@ function factoryFnc(){
      };
     
     
-     function presentationCreation(title,description){
+     function presentationCreation(title,description,id){
         var presentation={};
-        presentation.id=generateUUID();
+        presentation.id=id;
         presentation.title=title;
         presentation.description=description;
         presentation.slidArray=[];
