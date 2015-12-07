@@ -91,7 +91,6 @@ IOcontroller.setUpPres = function(id, callback){
 }
 
 IOcontroller.play = function(socket){
-	console.log("playing");
 	if(currentState == "PLAYED" && currentPres != null){
 		IOcontroller.getIndexSlidToShow("NEXT",function(err){
 			if(err) {

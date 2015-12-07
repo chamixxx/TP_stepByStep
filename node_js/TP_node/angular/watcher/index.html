@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="watchApp" ng-controller="eventCtrl">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Presentation App - Watcher Page</title>
+
+    <!-- Bootstrap -->
+    <link href="lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/js.css" rel="stylesheet">
+
+  </head>
+  <body>
+      
+      <div class="container-fluid fullScreenHeight zeroRef" >
+        <div class="row container-fluid fullScreenHeight " style=" padding-top:10px" ng-hide="isPresentaionStarted">
+                    <div class="form-group" >
+                        <h1 style="font-weight: bold;text-align: center">{{currentSlide.title}}</h1>
+                        <p style="text-align: center">{{currentSlide.txt}}</p>
+                    </div>  
+                    <div style="min-height: 100px;min-width: 100px;max-height:550px;max-width:600px;margin:auto;">
+                        <span ng-if="isSlidContentEmpty(currentSlide)">NO IMAGE IS SET</span>
+                       
+                           <img ng-hide="isSlidContentEmpty(currentSlide)" ng-src="{{contentMap.payload[currentSlide.contentMap[1]].src}}" alt="{{contentMap.payload[currentSlide.contentMap[1]].title}}" class="img-rounded" style="margin:auto;max-width:100%;max-height:100%;border: thick solid #7B9095;"/> 
+                        
+                    </div>
+        </div>
+        <h1 style="text-align: center" ng-show="isPresentaionStarted">WELCOME TO THE PRESENTATION WATCHER</h1>
+        <p style="text-align: center">Please wait until the presentation starts</p>
+    </div>
+      
+      
+    <script src="lib/js/jquery-1.11.3.min.js"></script>
+    <script src="lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    
+      
+      
+      <!-- ANGULAR -->    
+  <script src="lib/js/angular.min.js"></script>
+  
+            <script src="js/services/FactoryService-s3.1.js"></script>   
+
+      <script src="js/services/CommServiceWatcher.js"></script>   
+      <script src="js/application/WatcherApp.js"></script>
+  
+  <script src="js/controllers/EventControllerWatcher.js"></script>
+    <script type="text/javascript" src="lib/js/socket.js"></script>
+
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  </body>
+</html>

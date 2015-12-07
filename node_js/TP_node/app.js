@@ -27,7 +27,7 @@ server.listen(CONFIG.port);
 //route
 app.use("/",express.static(path.join(__dirname, "angular/login")));
 app.use("/admin", express.static(path.join(__dirname, "angular/admin")));
-app.use("/watch", express.static(path.join(__dirname, "public/watch")));
+app.use("/watch", express.static(path.join(__dirname, "angular/watcher")));
 app.use("/loadPres", loadPresRoute);
 app.use("/savePres", savePresRoute);
 app.use("/slidRouter", slidRouter);
