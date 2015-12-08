@@ -6,7 +6,7 @@ var CONFIG = JSON.parse(process.env.CONFIG);
 var presentationDirectory = CONFIG.presentationDirectory;
 var curSlidIndex = 0;
 var playerStarted = null;
-var interval = 2000;
+var interval = 4000;
 var isLastSlide = false;
 
 function IOcontroller() {};
