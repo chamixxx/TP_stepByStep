@@ -1,0 +1,41 @@
+package ejb;
+
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.JMSContext;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
+import javax.jms.Queue;
+
+import model.UserModel;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+/**
+ * Session Bean implementation class MessageReceiverSync
+ */
+@Stateless
+@LocalBean
+public class MessageReceiverSync implements MessageReceiverSyncLocal {
+
+	@Inject
+	JMSContext context;
+	
+	@Resource(mappedName = "java:/jms/queue/watcherqueue")
+	Queue myQueue;
+	
+	@Override
+	public UserModel receiveMessage() {
+		System.out.println("testetstetstsdjfhkdjafhsdkjhfdksjhfkjsd   jfhwejfhwejkf ");
+		//ObjectMessage receivedMessage =null;
+
+		Message receivedMessage = context.createConsumer(myQueue).receive();
+		ObjectMessage objectMessage = (ObjectMessage) receivedMessage;
+		UserModel userModel = (UserModel)objectMessage.getObject();
+		return userModel;
+	}
+}

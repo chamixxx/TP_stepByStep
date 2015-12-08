@@ -1,0 +1,50 @@
+package ejb;
+
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.ConnectionFactory;
+import javax.jms.DeliveryMode;
+import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSContext;
+import javax.jms.JMSProducer;
+import javax.jms.JMSRuntimeException;
+import javax.jms.ObjectMessage;
+import javax.jms.Queue;
+import javax.jms.Topic;
+
+import model.UserModel;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+/**
+ * Session Bean implementation class MessageSender
+ */
+@Stateless
+@LocalBean
+public class MessageSender implements MessageSenderLocal {
+	
+	@Inject
+	JMSContext context;
+	
+	@Resource(mappedName = "java:/jms/watcherAuthJMS")
+	Topic topic;
+
+	public void sendMessage(UserModel userModel) {
+		try {     
+			ObjectMessage message = context.createObjectMessage();
+    		message.setObject(userModel);
+    		JMSProducer producer = context.createProducer();
+    		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+    		producer.send(topic, message);
+    		
+		}
+        catch (Exception exc) {
+            exc.printStackTrace();
+        }		
+	}
+	
+}

@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+/Users/othmanechamikhazraji/Dev/workspaceEclipseLuna/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+3698368379.index
+2490521093.index
+3797844524.index
+3544695588.index
+3216564462.index
+927254197.index
