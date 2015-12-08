@@ -33,10 +33,10 @@ function loginCrtFnt($scope, $log, auth, $window){
 		 			$scope.usercheck = false;
 
 		 			if (payload.role == "ADMIN") {
-		 				$window.location.assign("../admin/index.html");
+		 				$window.location.assign("/admin");
 		 			}
 		 			if (payload.role == "WATCHER") {
-		 				$window.location.assign("loginSuccessWatcher.html");
+		 				$window.location.assign("/watch");
 		 			}
 		 		}
 		 		else {

@@ -4,8 +4,7 @@ var router = express.Router();
 module.exports = router;
 var bodyParser = require('body-parser');
 var requeste = require('request');
-
-var http = require('http');
+var querystring = require('querystring');
 
 
 router.use( bodyParser.json() );       
@@ -13,47 +12,26 @@ router.use(bodyParser.urlencoded({
   extended: true
 })); 
 
-var querystring = require('querystring');
-var http = require('http');
-
-
-var options = {
-    host: 'localhost',
-    port: 9990,
-    path: '/test',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-};
-
-
 router.route("/")
 	.post(function(request,res) {
 
-		var data = querystring.stringify(request.body);
-
-		requeste.post({url:'http://localhost:9990/test', data}, function optionalCallback(err, httpResponse, body) {
-	  		if (err) {
+    console.log(request.body.login);
+    console.log(request.body.pwd);
+		
+    requeste.post({
+        headers: {'content-type' : 'application/json'},
+        url:'http://localhost:8080/FrontAuthWatcherWebService2/test',
+        json:  {
+            "login":request.body.login,
+            "pwd":request.body.pwd
+          }
+      }, function optionalCallback(err, httpResponse, body) {
+	  		if (err || httpResponse.statusCode != 200) {
 	    		return console.error('upload failed:', err);
 	  		}
 	  		console.log('Upload successful!  Server responded with:', body);
+        res.json(body);
 		});
-
-/*
-		var httpreq = http.request(options, function (response) {
-   		 	response.setEncoding('utf8');
-    		
-    		response.on('data', function (chunk) {
-      			console.log("body: " + chunk);
-    		});
-    	
-    		response.on('end', function() {
-      			res.send('ok');
-    		})
-  		});
- 		httpreq.write(data);
-  		httpreq.end();*/
 });
 
 	
